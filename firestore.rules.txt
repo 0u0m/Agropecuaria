@@ -1,0 +1,12 @@
+// Estas reglas van en: Firebase Console → Firestore Database → pestaña "Reglas"
+// (no es un archivo que uses en el proyecto, solo pégalas ahí y publica)
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /productos/{productId} {
+      allow read: if true;                 // cualquiera puede VER el catálogo
+      allow write: if request.auth != null; // solo puede EDITAR quien inició sesión
+    }
+  }
+}

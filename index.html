@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Distribuidora Agropecuaria y Veterinaria — Catálogo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar__brand">
+      <span class="topbar__mark">AV</span>
+      <div class="topbar__name">
+        <strong>Distribuidora Agro-Vet</strong>
+        <span>Insumos para campo, granja y mascotas</span>
+      </div>
+    </div>
+    <button class="cart-btn" id="cartBtn" aria-label="Ver pedido">
+      🧾 <span id="cartCount">0</span>
+    </button>
+  </header>
+
+  <nav class="aisles" id="aisles" aria-label="Categorías">
+    <button class="aisle active" data-cat="todos">Todo el catálogo</button>
+    <button class="aisle" data-cat="bovinos">Bovinos</button>
+    <button class="aisle" data-cat="aves">Aves</button>
+    <button class="aisle" data-cat="mascotas">Mascotas</button>
+    <button class="aisle" data-cat="veterinario">Insumos veterinarios</button>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <h1>Lo que necesita tu rancho,<br>etiquetado y listo.</h1>
+      <p>Elige tus productos, revisa el precio en la etiqueta y arma tu pedido. Nosotros lo llevamos a tu dirección.</p>
+    </section>
+
+    <section class="grid" id="productGrid">
+      <!-- Las tarjetas de producto se generan con JS -->
+    </section>
+  </main>
+
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer__header">
+      <h2>Tu pedido</h2>
+      <button id="closeCart" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="cart-drawer__items" id="cartItems"></div>
+    <div class="cart-drawer__total">
+      <span>Total</span>
+      <strong id="cartTotal">$0</strong>
+    </div>
+    <button class="cart-drawer__checkout" id="checkoutBtn">Continuar pedido</button>
+  </div>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="modal" id="detailModal">
+    <div class="modal__box detail__box">
+      <button type="button" id="closeDetail" class="detail__close" aria-label="Cerrar">✕</button>
+      <div id="detailBody"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="addressModal">
+    <form class="modal__box" id="addressForm">
+      <h2>Datos para tu pedido</h2>
+      <label>
+        Nombre completo
+        <input type="text" id="custName" required>
+      </label>
+      <label>
+        Teléfono de contacto
+        <input type="tel" id="custPhone" required>
+      </label>
+      <label>
+        Dirección de entrega
+        <textarea id="custAddress" rows="3" required></textarea>
+      </label>
+      <div class="modal__actions">
+        <button type="button" id="cancelAddress">Cancelar</button>
+        <button type="submit" id="sendOrder">Enviar pedido por WhatsApp</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

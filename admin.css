@@ -1,0 +1,233 @@
+.admin-body {
+  margin: 0;
+  background: var(--grain);
+  font-family: var(--body);
+  color: var(--ink);
+}
+
+/* ---------- Pantalla de acceso ---------- */
+.login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pasture);
+}
+
+.login-box {
+  background: var(--grain);
+  border-radius: 6px;
+  padding: 28px;
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-box h1 {
+  font-family: var(--display);
+  font-size: 22px;
+  margin: 0;
+  color: var(--pasture-dark);
+}
+
+.login-box > p {
+  margin: -6px 0 6px;
+  font-size: 13px;
+  color: #5a5a4d;
+}
+
+.login-box label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a4a3f;
+}
+
+.login-box input {
+  padding: 9px 10px;
+  border: 1.5px solid var(--tan-line);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.login-box button {
+  margin-top: 6px;
+  background: var(--pasture);
+  color: var(--grain);
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #fff !important;
+  color: var(--ink) !important;
+  border: 1.5px solid var(--tan-line) !important;
+}
+
+.google-icon {
+  font-family: var(--display);
+  font-weight: 700;
+  color: #4285F4;
+}
+
+.login-error {
+  color: var(--barn);
+  font-size: 13px;
+  margin: 0;
+  min-height: 16px;
+}
+
+/* ---------- Panel ---------- */
+.admin-main {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 20px;
+  padding: 20px;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .admin-main { grid-template-columns: 1fr; }
+}
+
+.admin-form-card,
+.admin-list-card {
+  background: #fff;
+  border: 1px solid var(--tan-line);
+  border-radius: 6px;
+  padding: 18px;
+}
+
+.admin-form-card h2,
+.admin-list-card h2 {
+  font-family: var(--display);
+  color: var(--pasture-dark);
+  margin: 0 0 14px;
+  font-size: 18px;
+}
+
+#productForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#productForm label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a4a3f;
+}
+
+#productForm input,
+#productForm textarea,
+#productForm select {
+  padding: 9px 10px;
+  border: 1.5px solid var(--tan-line);
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: var(--body);
+  resize: none;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.form-row label { flex: 1; }
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.form-actions button {
+  border: none;
+  padding: 9px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#saveProduct {
+  background: var(--pasture);
+  color: var(--grain);
+}
+
+#cancelEdit {
+  background: transparent;
+  border: 1.5px solid var(--pasture);
+  color: var(--pasture-dark);
+}
+
+.admin-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--tan-line);
+}
+
+.admin-row__icon { font-size: 22px; }
+
+.admin-row__thumb {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+}
+
+.admin-row__info { flex: 1; }
+
+.admin-row__info strong {
+  display: block;
+  font-size: 14px;
+}
+
+.admin-row__info span {
+  font-size: 12px;
+  color: #6a6a5d;
+}
+
+.admin-row__price {
+  font-family: var(--mono);
+  color: var(--barn);
+  font-weight: 500;
+}
+
+.admin-row__actions {
+  display: flex;
+  gap: 6px;
+}
+
+.admin-row__actions button {
+  border: none;
+  background: var(--tan);
+  color: var(--pasture-dark);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.admin-row__actions button.danger {
+  background: var(--barn);
+  color: var(--grain);
+}

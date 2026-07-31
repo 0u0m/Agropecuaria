@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de administración — Distribuidora Agro-Vet</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="admin.css">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+</head>
+<body class="admin-body">
+
+  <!-- Pantalla de acceso -->
+  <div class="login-screen" id="loginScreen">
+    <form class="login-box" id="loginForm">
+      <h1>Panel de administración</h1>
+      <p>Distribuidora Agro-Vet</p>
+      <label>
+        Correo
+        <input type="email" id="loginEmail" required>
+      </label>
+      <label>
+        Contraseña
+        <input type="password" id="loginPassword" required>
+      </label>
+      <button type="submit">Entrar</button>
+      <p class="login-error" id="loginError"></p>
+    </form>
+  </div>
+
+  <!-- Panel (oculto hasta iniciar sesión) -->
+  <div class="admin-wrap" id="adminWrap" style="display:none;">
+    <header class="topbar">
+      <div class="topbar__brand">
+        <span class="topbar__mark">AV</span>
+        <div class="topbar__name">
+          <strong>Panel de administración</strong>
+          <span id="userEmail"></span>
+        </div>
+      </div>
+      <button class="cart-btn" id="logoutBtn">Cerrar sesión</button>
+    </header>
+
+    <main class="admin-main">
+      <section class="admin-form-card">
+        <h2 id="formTitle">Agregar producto</h2>
+        <form id="productForm">
+          <input type="hidden" id="productId">
+          <label>
+            Nombre
+            <input type="text" id="pName" required>
+          </label>
+          <label>
+            Descripción
+            <textarea id="pDesc" rows="2" required></textarea>
+          </label>
+          <div class="form-row">
+            <label>
+              Precio (MXN)
+              <input type="number" id="pPrice" min="0" step="0.01" required>
+            </label>
+            <label>
+              Categoría
+              <select id="pCat" required>
+                <option value="bovinos">Bovinos</option>
+                <option value="aves">Aves</option>
+                <option value="mascotas">Mascotas</option>
+                <option value="veterinario">Insumos veterinarios</option>
+              </select>
+            </label>
+          </div>
+          <label>
+            URL de la imagen (opcional)
+            <input type="url" id="pImage" placeholder="https://...">
+          </label>
+          <label>
+            Ícono/emoji — se usa si no hay imagen (ej. 🐄)
+            <input type="text" id="pIcon" maxlength="4" placeholder="📦">
+          </label>
+          <div class="form-actions">
+            <button type="button" id="cancelEdit" style="display:none;">Cancelar edición</button>
+            <button type="submit" id="saveProduct">Guardar producto</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="admin-list-card">
+        <h2>Productos actuales</h2>
+        <div id="adminList"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
