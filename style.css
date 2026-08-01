@@ -1,13 +1,13 @@
 :root {
-  /* Paleta: costal de grano, pastizal, sello de bodega */
-  --grain: #F1ECDD;      /* fondo — tono costal de alimento */
-  --pasture: #33472F;    /* verde pastizal — primario */
-  --pasture-dark: #223020;
-  --feed-tag: #C98A32;   /* ocre etiqueta de alimento — acento */
-  --barn: #8C3B2B;       /* rojo barn — precio / CTA */
+  /* Paleta inspirada en el logo: azul y verde limón */
+  --grain: #F1F7F7;      /* fondo — blanco azulado, limpio */
+  --pasture: #2D7D99;    /* azul del logo — primario */
+  --pasture-dark: #1B5468;
+  --feed-tag: #8CC63F;   /* verde limón del logo — acento / etiqueta de precio */
+  --barn: #1F4F63;       /* azul oscuro — botones de acción / precio */
   --ink: #23241F;        /* texto principal */
-  --tan: #DCD0AE;        /* tarjetas / divisores */
-  --tan-line: #B9A97C;
+  --tan: #D6E9EA;        /* tarjetas / divisores */
+  --tan-line: #A9CBCE;
 
   --display: 'Rajdhani', sans-serif;
   --body: 'Work Sans', sans-serif;
@@ -466,8 +466,9 @@ body {
   position: relative;
   max-width: 560px;
   width: 90vw;
+  max-height: 85vh;
   padding: 0;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .detail__close {
@@ -485,7 +486,8 @@ body {
 }
 
 .detail__img {
-  height: 320px;
+  position: relative;
+  height: 260px;
   background: var(--tan);
   display: flex;
   align-items: center;
@@ -508,21 +510,64 @@ body {
 }
 
 .card__img {
+  position: relative;
   height: 180px;
   overflow: hidden;
+}
+
+/* Insignia de especie/categoría sobre la foto */
+.species-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: var(--grain);
+  border: 1.5px solid var(--tan-line);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  z-index: 1;
+}
+
+.detail__content {
+  padding: 18px;
 }
 
 .detail__name {
   font-family: var(--display);
   color: var(--pasture-dark);
   font-size: 20px;
-  margin: 16px 18px 6px;
+  margin: 0 0 6px;
 }
 
 .detail__desc {
   font-size: 14px;
   color: #4a4a3f;
-  margin: 0 18px 16px;
+  margin: 0 0 14px;
+  line-height: 1.5;
+}
+
+.detail__section {
+  border-top: 1px solid var(--tan-line);
+  padding: 10px 0;
+}
+
+.detail__section h4 {
+  font-family: var(--display);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--pasture);
+  margin: 0 0 4px;
+}
+
+.detail__section p {
+  font-size: 13px;
+  color: #4a4a3f;
+  margin: 0;
   line-height: 1.5;
 }
 
@@ -530,5 +575,5 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 18px 18px;
+  margin-top: 16px;
 }

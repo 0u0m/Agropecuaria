@@ -7,6 +7,20 @@
 // ---------------------------------------------------------------
 let products = [];
 
+const CATEGORY_ICONS = {
+  bovinos: "🐄",
+  aves: "🐔",
+  mascotas: "🐾",
+  veterinario: "💉",
+};
+
+const CATEGORY_LABELS = {
+  bovinos: "Bovinos",
+  aves: "Aves",
+  mascotas: "Mascotas",
+  veterinario: "Insumos veterinarios",
+};
+
 db.collection("productos").onSnapshot((snapshot) => {
   products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   const activeCat = document.querySelector(".aisle.active")?.dataset.cat || "todos";
@@ -35,7 +49,10 @@ function renderProducts(cat = "todos") {
   const list = cat === "todos" ? products : products.filter(p => p.cat === cat);
   grid.innerHTML = list.map(p => `
     <article class="card" data-id="${p.id}">
-      <div class="card__img">${p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}">` : (p.icon || "📦")}</div>
+      <div class="card__img">
+        <span class="species-badge" title="${CATEGORY_LABELS[p.cat] || p.cat}">${CATEGORY_ICONS[p.cat] || "📦"}</span>
+        ${p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}">` : (p.icon || "📦")}
+      </div>
       <div class="card__body">
         <h3 class="card__name">${p.name}</h3>
         <p class="card__desc">${p.desc}</p>
@@ -136,13 +153,39 @@ function openDetail(id) {
   const p = products.find(p => p.id === id);
   if (!p) return;
 
+  // Cada sección técnica solo se agrega si el producto trae ese dato.
+  // Así, un producto sencillo (sin ficha técnica) se ve limpio,
+  // y uno con toda la información se ve completo.
+  const seccionesTecnicas = [
+    { label: "Fórmula / composición", value: p.formula },
+    { label: "Presentaciones", value: p.presentaciones },
+    { label: "Dosis", value: p.dosis },
+    { label: "Vía de administración", value: p.viaAdmin },
+    { label: "Tiempo de retiro", value: p.tiempoRetiro },
+    { label: "Advertencias", value: p.advertencias },
+  ]
+    .filter(s => s.value && s.value.trim())
+    .map(s => `
+      <div class="detail__section">
+        <h4>${s.label}</h4>
+        <p>${s.value.replace(/\n/g, "<br>")}</p>
+      </div>
+    `)
+    .join("");
+
   detailBody.innerHTML = `
-    <div class="detail__img">${p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}">` : (p.icon || "📦")}</div>
-    <h2 class="detail__name">${p.name}</h2>
-    <p class="detail__desc">${p.desc}</p>
-    <div class="detail__footer">
-      <span class="price-tag">${money(p.price)}</span>
-      <button class="add-btn" data-id="${p.id}">Agregar</button>
+    <div class="detail__img">
+      <span class="species-badge" title="${CATEGORY_LABELS[p.cat] || p.cat}">${CATEGORY_ICONS[p.cat] || "📦"}</span>
+      ${p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}">` : (p.icon || "📦")}
+    </div>
+    <div class="detail__content">
+      <h2 class="detail__name">${p.name}</h2>
+      <p class="detail__desc">${p.desc}</p>
+      ${seccionesTecnicas}
+      <div class="detail__footer">
+        <span class="price-tag">${money(p.price)}</span>
+        <button class="add-btn" data-id="${p.id}">Agregar</button>
+      </div>
     </div>
   `;
   detailModal.classList.add("open");
@@ -162,7 +205,7 @@ detailBody.addEventListener("click", (e) => {
 // Reemplaza el placeholder por el número real, con código de país
 // y sin espacios ni signos. Ejemplo México: "529611234567"
 // ---------------------------------------------------------------
-const WHATSAPP_NUMBER = "PON_AQUI_EL_NUMERO"; // <-- CAMBIAR AQUÍ
+const WHATSAPP_NUMBER = "529611435007"; // <-- CAMBIAR AQUÍ
 
 const addressModal = document.getElementById("addressModal");
 const addressForm = document.getElementById("addressForm");

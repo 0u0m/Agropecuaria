@@ -84,6 +84,36 @@
             Ícono/emoji — se usa si no hay foto (ej. 🐄)
             <input type="text" id="pIcon" maxlength="4" placeholder="📦">
           </label>
+
+          <div class="tech-fields">
+            <h3>Ficha técnica (opcional)</h3>
+            <p class="tech-fields__hint">Llena solo lo que aplique a este producto — lo que dejes vacío no aparece en el catálogo.</p>
+            <label>
+              Fórmula / composición
+              <textarea id="pFormula" rows="2"></textarea>
+            </label>
+            <label>
+              Presentaciones
+              <input type="text" id="pPresentaciones" placeholder="Ej. 500 ml, 250 ml, 100 ml">
+            </label>
+            <label>
+              Dosis
+              <textarea id="pDosis" rows="2"></textarea>
+            </label>
+            <label>
+              Vía de administración
+              <input type="text" id="pViaAdmin" placeholder="Ej. Intramuscular">
+            </label>
+            <label>
+              Tiempo de retiro
+              <input type="text" id="pTiempoRetiro" placeholder="Ej. 15 días antes del sacrificio">
+            </label>
+            <label>
+              Advertencias
+              <textarea id="pAdvertencias" rows="2"></textarea>
+            </label>
+          </div>
+
           <div class="form-actions">
             <button type="button" id="cancelEdit" style="display:none;">Cancelar edición</button>
             <button type="submit" id="saveProduct">Guardar producto</button>

@@ -52,6 +52,12 @@ const pImageFile = document.getElementById("pImageFile");
 const uploadStatus = document.getElementById("uploadStatus");
 const imagePreview = document.getElementById("imagePreview");
 const pIcon = document.getElementById("pIcon");
+const pFormula = document.getElementById("pFormula");
+const pPresentaciones = document.getElementById("pPresentaciones");
+const pDosis = document.getElementById("pDosis");
+const pViaAdmin = document.getElementById("pViaAdmin");
+const pTiempoRetiro = document.getElementById("pTiempoRetiro");
+const pAdvertencias = document.getElementById("pAdvertencias");
 
 // ---------------------------------------------------------------
 // SUBIDA DE FOTOS (ImgBB — gratis, sin tarjeta)
@@ -110,6 +116,12 @@ productForm.addEventListener("submit", (e) => {
     cat: pCat.value,
     imageUrl: pImage.value.trim(),
     icon: pIcon.value.trim() || "📦",
+    formula: pFormula.value.trim(),
+    presentaciones: pPresentaciones.value.trim(),
+    dosis: pDosis.value.trim(),
+    viaAdmin: pViaAdmin.value.trim(),
+    tiempoRetiro: pTiempoRetiro.value.trim(),
+    advertencias: pAdvertencias.value.trim(),
   };
 
   const id = productId.value;
@@ -162,6 +174,12 @@ db.collection("productos").onSnapshot((snapshot) => {
         imagePreview.style.display = "none";
       }
       pIcon.value = p.icon || "";
+      pFormula.value = p.formula || "";
+      pPresentaciones.value = p.presentaciones || "";
+      pDosis.value = p.dosis || "";
+      pViaAdmin.value = p.viaAdmin || "";
+      pTiempoRetiro.value = p.tiempoRetiro || "";
+      pAdvertencias.value = p.advertencias || "";
       formTitle.textContent = "Editar producto";
       cancelEdit.style.display = "inline-block";
       window.scrollTo({ top: 0, behavior: "smooth" });
