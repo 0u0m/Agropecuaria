@@ -464,7 +464,8 @@ body {
 /* ---------- Detalle de producto ---------- */
 .detail__box {
   position: relative;
-  max-width: 420px;
+  max-width: 560px;
+  width: 90vw;
   padding: 0;
   overflow: hidden;
 }
@@ -484,7 +485,7 @@ body {
 }
 
 .detail__img {
-  height: 220px;
+  height: 320px;
   background: var(--tan);
   display: flex;
   align-items: center;
@@ -492,7 +493,13 @@ body {
   font-size: 64px;
 }
 
-.detail__img img,
+.detail__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
 .card__img img {
   width: 100%;
   height: 100%;
@@ -501,6 +508,7 @@ body {
 }
 
 .card__img {
+  height: 180px;
   overflow: hidden;
 }
 
