@@ -497,6 +497,11 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+}
+
+.card__img {
+  overflow: hidden;
 }
 
 .detail__name {
