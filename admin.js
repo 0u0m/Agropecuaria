@@ -48,13 +48,41 @@ const pDesc = document.getElementById("pDesc");
 const pPrice = document.getElementById("pPrice");
 const pCat = document.getElementById("pCat");
 const pImage = document.getElementById("pImage");
+const pImageFile = document.getElementById("pImageFile");
+const uploadStatus = document.getElementById("uploadStatus");
+const imagePreview = document.getElementById("imagePreview");
 const pIcon = document.getElementById("pIcon");
+
+const storage = firebase.storage();
+
+pImageFile.addEventListener("change", () => {
+  const file = pImageFile.files[0];
+  if (!file) return;
+
+  uploadStatus.textContent = "Subiendo foto...";
+  const fileRef = storage.ref("productos/" + Date.now() + "_" + file.name);
+
+  fileRef.put(file)
+    .then(snapshot => snapshot.ref.getDownloadURL())
+    .then(url => {
+      pImage.value = url;
+      imagePreview.src = url;
+      imagePreview.style.display = "block";
+      uploadStatus.textContent = "Foto lista ✓";
+    })
+    .catch(err => {
+      uploadStatus.textContent = "Error al subir: " + err.message;
+    });
+});
 const cancelEdit = document.getElementById("cancelEdit");
 const adminList = document.getElementById("adminList");
 
 function resetForm() {
   productForm.reset();
   productId.value = "";
+  pImage.value = "";
+  imagePreview.style.display = "none";
+  uploadStatus.textContent = "";
   formTitle.textContent = "Agregar producto";
   cancelEdit.style.display = "none";
 }
@@ -116,6 +144,12 @@ db.collection("productos").onSnapshot((snapshot) => {
       pPrice.value = p.price;
       pCat.value = p.cat;
       pImage.value = p.imageUrl || "";
+      if (p.imageUrl) {
+        imagePreview.src = p.imageUrl;
+        imagePreview.style.display = "block";
+      } else {
+        imagePreview.style.display = "none";
+      }
       pIcon.value = p.icon || "";
       formTitle.textContent = "Editar producto";
       cancelEdit.style.display = "inline-block";

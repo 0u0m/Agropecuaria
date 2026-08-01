@@ -150,6 +150,20 @@
 
 .form-row label { flex: 1; }
 
+.upload-status {
+  font-size: 12px;
+  color: var(--pasture-dark);
+  min-height: 14px;
+}
+
+.image-preview {
+  width: 100%;
+  max-height: 160px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1.5px solid var(--tan-line);
+}
+
 .form-actions {
   display: flex;
   gap: 10px;
@@ -230,4 +244,20 @@
 .admin-row__actions button.danger {
   background: var(--barn);
   color: var(--grain);
+}
+
+/* ---------- Responsivo (móvil) ---------- */
+@media (max-width: 480px) {
+  .admin-main { padding: 12px; gap: 12px; }
+  .admin-form-card, .admin-list-card { padding: 14px; }
+  .form-row { flex-direction: column; gap: 12px; }
+
+  .admin-row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .admin-row__info { flex-basis: 100%; order: 3; }
+  .admin-row__actions { margin-left: auto; }
+
+  .login-box { padding: 22px; }
 }

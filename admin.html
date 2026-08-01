@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel de administración — Distribuidora Agro-Vet</title>
+<title>Panel de administración — Distribuidora Agropecuaria del Sureste</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="admin.css">
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 <script src="firebase-config.js"></script>
 </head>
 <body class="admin-body">
@@ -18,7 +19,7 @@
   <div class="login-screen" id="loginScreen">
     <form class="login-box" id="loginForm">
       <h1>Panel de administración</h1>
-      <p>Distribuidora Agro-Vet</p>
+      <p>Distribuidora Agropecuaria del Sureste</p>
       <label>
         Correo
         <input type="email" id="loginEmail" required>
@@ -36,7 +37,7 @@
   <div class="admin-wrap" id="adminWrap" style="display:none;">
     <header class="topbar">
       <div class="topbar__brand">
-        <span class="topbar__mark">AV</span>
+        <img src="logo.png" alt="Distribuidora Agropecuaria del Sureste" class="topbar__logo">
         <div class="topbar__name">
           <strong>Panel de administración</strong>
           <span id="userEmail"></span>
@@ -74,11 +75,14 @@
             </label>
           </div>
           <label>
-            URL de la imagen (opcional)
-            <input type="url" id="pImage" placeholder="https://...">
+            Foto del producto
+            <input type="file" id="pImageFile" accept="image/*">
           </label>
+          <div class="upload-status" id="uploadStatus"></div>
+          <img id="imagePreview" class="image-preview" style="display:none;">
+          <input type="hidden" id="pImage">
           <label>
-            Ícono/emoji — se usa si no hay imagen (ej. 🐄)
+            Ícono/emoji — se usa si no hay foto (ej. 🐄)
             <input type="text" id="pIcon" maxlength="4" placeholder="📦">
           </label>
           <div class="form-actions">

@@ -39,19 +39,13 @@ body {
   gap: 12px;
 }
 
-.topbar__mark {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 22px;
-  background: var(--feed-tag);
-  color: var(--pasture-dark);
-  width: 42px;
+.topbar__logo {
   height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: auto;
+  object-fit: contain;
+  background: var(--grain);
   border-radius: 4px;
-  letter-spacing: 0.5px;
+  padding: 3px 6px;
 }
 
 .topbar__name {
@@ -343,6 +337,39 @@ body {
 .overlay.open {
   opacity: 1;
   pointer-events: auto;
+}
+
+/* ---------- Responsivo (móvil) ---------- */
+@media (max-width: 480px) {
+  .topbar { padding: 10px 14px; }
+  .topbar__name strong { font-size: 15px; }
+  .topbar__name span { font-size: 10px; }
+  .topbar__logo { height: 32px; }
+
+  .aisles { padding: 10px 14px; gap: 6px; }
+  .aisle { font-size: 12px; padding: 5px 11px; }
+
+  .hero { padding: 24px 14px 10px; }
+  .hero p { font-size: 14px; }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .card__img { height: 110px; font-size: 32px; }
+  .card__body { padding: 10px 10px 12px; }
+  .card__name { font-size: 14px; }
+  .card__desc { font-size: 12px; }
+  .price-tag { font-size: 13px; padding: 4px 10px 4px 16px; }
+  .add-btn { font-size: 12px; padding: 6px 10px; }
+
+  .cart-drawer { width: 100%; right: -100%; }
+  .cart-drawer.open { right: 0; }
+
+  .modal__box { max-width: 100%; }
+  .detail__img { height: 180px; font-size: 48px; }
 }
 
 /* ---------- Modal de dirección ---------- */
