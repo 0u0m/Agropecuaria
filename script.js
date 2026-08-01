@@ -193,11 +193,24 @@ function openDetail(id) {
 
 closeDetail.addEventListener("click", () => detailModal.classList.remove("open"));
 
+// Cerrar si se hace clic fuera de la ficha (en el fondo oscuro), no solo con la X
+detailModal.addEventListener("click", (e) => {
+  if (e.target === detailModal) detailModal.classList.remove("open");
+});
+
 detailBody.addEventListener("click", (e) => {
   const btn = e.target.closest(".add-btn");
   if (!btn) return;
   addToCart(btn.dataset.id);
-  detailModal.classList.remove("open");
+
+  // Aviso breve de que se agregó, sin cerrar la ficha
+  const textoOriginal = btn.textContent;
+  btn.textContent = "Agregado ✓";
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = textoOriginal;
+    btn.disabled = false;
+  }, 900);
 });
 
 // ---------------------------------------------------------------
@@ -205,7 +218,7 @@ detailBody.addEventListener("click", (e) => {
 // Reemplaza el placeholder por el número real, con código de país
 // y sin espacios ni signos. Ejemplo México: "529611234567"
 // ---------------------------------------------------------------
-const WHATSAPP_NUMBER = "529611435007"; // <-- CAMBIAR AQUÍ
+const WHATSAPP_NUMBER = "PON_AQUI_EL_NUMERO"; // <-- CAMBIAR AQUÍ
 
 const addressModal = document.getElementById("addressModal");
 const addressForm = document.getElementById("addressForm");
@@ -221,6 +234,10 @@ checkoutBtn.addEventListener("click", () => {
 
 cancelAddress.addEventListener("click", () => {
   addressModal.classList.remove("open");
+});
+
+addressModal.addEventListener("click", (e) => {
+  if (e.target === addressModal) addressModal.classList.remove("open");
 });
 
 addressForm.addEventListener("submit", (e) => {
