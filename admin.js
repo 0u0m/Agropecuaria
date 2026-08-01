@@ -53,26 +53,37 @@ const uploadStatus = document.getElementById("uploadStatus");
 const imagePreview = document.getElementById("imagePreview");
 const pIcon = document.getElementById("pIcon");
 
-const storage = firebase.storage();
+// ---------------------------------------------------------------
+// SUBIDA DE FOTOS (ImgBB — gratis, sin tarjeta)
+// Consigue tu API key gratis en https://api.imgbb.com/ y pégala aquí.
+// ---------------------------------------------------------------
+const IMGBB_API_KEY = "837e0894bb15335b282db5c900baf20e";
 
-pImageFile.addEventListener("change", () => {
+pImageFile.addEventListener("change", async () => {
   const file = pImageFile.files[0];
   if (!file) return;
 
   uploadStatus.textContent = "Subiendo foto...";
-  const fileRef = storage.ref("productos/" + Date.now() + "_" + file.name);
 
-  fileRef.put(file)
-    .then(snapshot => snapshot.ref.getDownloadURL())
-    .then(url => {
-      pImage.value = url;
-      imagePreview.src = url;
-      imagePreview.style.display = "block";
-      uploadStatus.textContent = "Foto lista ✓";
-    })
-    .catch(err => {
-      uploadStatus.textContent = "Error al subir: " + err.message;
+  const formData = new FormData();
+  formData.append("image", file);
+
+  try {
+    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+      method: "POST",
+      body: formData,
     });
+    const data = await res.json();
+
+    if (!data.success) throw new Error(data.error?.message || "Error desconocido");
+
+    pImage.value = data.data.url;
+    imagePreview.src = data.data.url;
+    imagePreview.style.display = "block";
+    uploadStatus.textContent = "Foto lista ✓";
+  } catch (err) {
+    uploadStatus.textContent = "Error al subir: " + err.message;
+  }
 });
 const cancelEdit = document.getElementById("cancelEdit");
 const adminList = document.getElementById("adminList");
