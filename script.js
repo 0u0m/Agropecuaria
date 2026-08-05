@@ -216,9 +216,9 @@ detailBody.addEventListener("click", (e) => {
 // ---------------------------------------------------------------
 // NÚMERO DE WHATSAPP DEL NEGOCIO
 // Reemplaza el placeholder por el número real, con código de país
-// y sin espacios ni signos. Ejemplo México: "529611234567"
+// y sin espacios ni signos. Ejemplo México: "529611435007"
 // ---------------------------------------------------------------
-const WHATSAPP_NUMBER = "PON_AQUI_EL_NUMERO"; // <-- CAMBIAR AQUÍ
+const WHATSAPP_NUMBER = "529611435007"; // <-- CAMBIAR AQUÍ
 
 const addressModal = document.getElementById("addressModal");
 const addressForm = document.getElementById("addressForm");
