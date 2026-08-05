@@ -194,3 +194,74 @@ db.collection("productos").onSnapshot((snapshot) => {
     });
   });
 });
+
+// ---------- Zonas de envío ----------
+const zonaForm = document.getElementById("zonaForm");
+const zonaFormTitle = document.getElementById("zonaFormTitle");
+const zonaId = document.getElementById("zonaId");
+const zonaName = document.getElementById("zonaName");
+const zonaPrice = document.getElementById("zonaPrice");
+const cancelZonaEdit = document.getElementById("cancelZonaEdit");
+const zonaList = document.getElementById("zonaList");
+
+function resetZonaForm() {
+  zonaForm.reset();
+  zonaId.value = "";
+  zonaFormTitle.textContent = "Agregar zona de envío";
+  cancelZonaEdit.style.display = "none";
+}
+
+cancelZonaEdit.addEventListener("click", resetZonaForm);
+
+zonaForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const data = {
+    name: zonaName.value.trim(),
+    price: Number(zonaPrice.value),
+  };
+
+  const id = zonaId.value;
+  const promise = id
+    ? db.collection("zonas").doc(id).update(data)
+    : db.collection("zonas").add(data);
+
+  promise.then(resetZonaForm).catch((err) => alert("Error al guardar la zona: " + err.message));
+});
+
+db.collection("zonas").onSnapshot((snapshot) => {
+  const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+  zonaList.innerHTML = items.map(z => `
+    <div class="admin-row">
+      <div class="admin-row__info">
+        <strong>${z.name}</strong>
+      </div>
+      <span class="admin-row__price">$${Number(z.price).toLocaleString("es-MX")}</span>
+      <div class="admin-row__actions">
+        <button data-zona-edit="${z.id}">Editar</button>
+        <button class="danger" data-zona-del="${z.id}">Eliminar</button>
+      </div>
+    </div>
+  `).join("") || "<p style='font-size:13px;color:#777;'>Aún no hay zonas configuradas.</p>";
+
+  zonaList.querySelectorAll("[data-zona-edit]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const z = items.find(i => i.id === btn.dataset.zonaEdit);
+      zonaId.value = z.id;
+      zonaName.value = z.name;
+      zonaPrice.value = z.price;
+      zonaFormTitle.textContent = "Editar zona de envío";
+      cancelZonaEdit.style.display = "inline-block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  });
+
+  zonaList.querySelectorAll("[data-zona-del]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (confirm("¿Eliminar esta zona de envío?")) {
+        db.collection("zonas").doc(btn.dataset.zonaDel).delete();
+      }
+    });
+  });
+});

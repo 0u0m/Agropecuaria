@@ -83,6 +83,17 @@
         Dirección de entrega
         <textarea id="custAddress" rows="3" required></textarea>
       </label>
+      <label>
+        Zona de entrega
+        <select id="custZona" required>
+          <option value="">Selecciona tu zona...</option>
+        </select>
+      </label>
+      <div class="order-summary" id="orderSummary">
+        <div><span>Subtotal</span><strong id="summarySubtotal">$0</strong></div>
+        <div><span>Envío</span><strong id="summaryShipping">—</strong></div>
+        <div class="order-summary__total"><span>Total</span><strong id="summaryTotal">$0</strong></div>
+      </div>
       <div class="modal__actions">
         <button type="button" id="cancelAddress">Cancelar</button>
         <button type="submit" id="sendOrder">Enviar pedido por WhatsApp</button>

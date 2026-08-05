@@ -223,12 +223,51 @@ const WHATSAPP_NUMBER = "PON_AQUI_EL_NUMERO"; // <-- CAMBIAR AQUÍ
 const addressModal = document.getElementById("addressModal");
 const addressForm = document.getElementById("addressForm");
 const cancelAddress = document.getElementById("cancelAddress");
+const custZona = document.getElementById("custZona");
+const summarySubtotal = document.getElementById("summarySubtotal");
+const summaryShipping = document.getElementById("summaryShipping");
+const summaryTotal = document.getElementById("summaryTotal");
+
+// ---------------------------------------------------------------
+// ZONAS DE ENVÍO
+// Se administran desde el panel — aquí solo se leen y se usan
+// para calcular el costo de envío según lo que elija el cliente.
+// ---------------------------------------------------------------
+let zonas = [];
+
+db.collection("zonas").onSnapshot((snapshot) => {
+  zonas = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  const seleccionActual = custZona.value;
+  custZona.innerHTML = `<option value="">Selecciona tu zona...</option>` +
+    zonas.map(z => `<option value="${z.id}">${z.name} — ${money(z.price)}</option>`).join("");
+  if (zonas.some(z => z.id === seleccionActual)) custZona.value = seleccionActual;
+  updateOrderSummary();
+});
+
+function cartSubtotal() {
+  return cart.reduce((sum, c) => {
+    const p = products.find(p => p.id === c.id);
+    return sum + (p ? p.price * c.qty : 0);
+  }, 0);
+}
+
+function updateOrderSummary() {
+  const subtotal = cartSubtotal();
+  const zona = zonas.find(z => z.id === custZona.value);
+
+  summarySubtotal.textContent = money(subtotal);
+  summaryShipping.textContent = zona ? money(zona.price) : "—";
+  summaryTotal.textContent = money(subtotal + (zona ? zona.price : 0));
+}
+
+custZona.addEventListener("change", updateOrderSummary);
 
 checkoutBtn.addEventListener("click", () => {
   if (cart.length === 0) {
     alert("Agrega al menos un producto antes de continuar.");
     return;
   }
+  updateOrderSummary();
   addressModal.classList.add("open");
 });
 
@@ -246,22 +285,28 @@ addressForm.addEventListener("submit", (e) => {
   const name = document.getElementById("custName").value.trim();
   const phone = document.getElementById("custPhone").value.trim();
   const address = document.getElementById("custAddress").value.trim();
+  const zona = zonas.find(z => z.id === custZona.value);
+
+  if (!zona) {
+    alert("Selecciona tu zona de entrega.");
+    return;
+  }
 
   const lines = cart.map(c => {
     const p = products.find(p => p.id === c.id);
     return `• ${p.name} x${c.qty} — ${money(p.price * c.qty)}`;
   });
 
-  const total = cart.reduce((sum, c) => {
-    const p = products.find(p => p.id === c.id);
-    return sum + p.price * c.qty;
-  }, 0);
+  const subtotal = cartSubtotal();
+  const total = subtotal + zona.price;
 
   const message = [
     "Nuevo pedido:",
     "",
     ...lines,
     "",
+    `Subtotal: ${money(subtotal)}`,
+    `Envío (${zona.name}): ${money(zona.price)}`,
     `Total: ${money(total)}`,
     "",
     `Cliente: ${name}`,

@@ -437,9 +437,46 @@ body {
 }
 
 .modal__box input:focus,
-.modal__box textarea:focus {
+.modal__box textarea:focus,
+.modal__box select:focus {
   outline: 2px solid var(--pasture);
   outline-offset: 1px;
+}
+
+.modal__box select {
+  font-family: var(--body);
+  font-size: 14px;
+  padding: 9px 10px;
+  border: 1.5px solid var(--tan-line);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.order-summary {
+  background: #fff;
+  border: 1.5px solid var(--tan-line);
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.order-summary > div {
+  display: flex;
+  justify-content: space-between;
+  color: #4a4a3f;
+}
+
+.order-summary__total {
+  border-top: 1px solid var(--tan-line);
+  margin-top: 4px;
+  padding-top: 6px;
+  font-family: var(--display);
+  font-size: 16px;
+  color: var(--pasture-dark) !important;
 }
 
 .modal__actions {
