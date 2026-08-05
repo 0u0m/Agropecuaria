@@ -80,14 +80,16 @@
         <input type="tel" id="custPhone" required>
       </label>
       <label>
-        Dirección de entrega
-        <textarea id="custAddress" rows="3" required></textarea>
-      </label>
-      <label>
         Zona de entrega
         <select id="custZona" required>
           <option value="">Selecciona tu zona...</option>
         </select>
+        <span class="field-hint">Esto determina el costo de envío.</span>
+      </label>
+      <label>
+        Dirección exacta
+        <textarea id="custAddress" rows="3" required placeholder="Calle, número, colonia, referencias..."></textarea>
+        <span class="field-hint">La ubicación precisa donde se entrega el pedido, dentro de la zona que elegiste.</span>
       </label>
       <div class="order-summary" id="orderSummary">
         <div><span>Subtotal</span><strong id="summarySubtotal">$0</strong></div>
