@@ -47,6 +47,7 @@ const pName = document.getElementById("pName");
 const pDesc = document.getElementById("pDesc");
 const pPrice = document.getElementById("pPrice");
 const pCat = document.getElementById("pCat");
+const pAgotado = document.getElementById("pAgotado");
 const pImage = document.getElementById("pImage");
 const pImageFile = document.getElementById("pImageFile");
 const uploadStatus = document.getElementById("uploadStatus");
@@ -114,6 +115,7 @@ productForm.addEventListener("submit", (e) => {
     desc: pDesc.value.trim(),
     price: Number(pPrice.value),
     cat: pCat.value,
+    agotado: pAgotado.checked,
     imageUrl: pImage.value.trim(),
     icon: pIcon.value.trim() || "📦",
     formula: pFormula.value.trim(),
@@ -147,7 +149,7 @@ db.collection("productos").onSnapshot((snapshot) => {
     <div class="admin-row">
       <span class="admin-row__icon">${p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}" class="admin-row__thumb">` : (p.icon || "📦")}</span>
       <div class="admin-row__info">
-        <strong>${p.name}</strong>
+        <strong>${p.name} ${p.agotado ? '<span class="admin-agotado-tag">Agotado</span>' : ""}</strong>
         <span>${catLabels[p.cat] || p.cat} · ${p.desc}</span>
       </div>
       <span class="admin-row__price">$${Number(p.price).toLocaleString("es-MX")}</span>
@@ -166,6 +168,7 @@ db.collection("productos").onSnapshot((snapshot) => {
       pDesc.value = p.desc;
       pPrice.value = p.price;
       pCat.value = p.cat;
+      pAgotado.checked = !!p.agotado;
       pImage.value = p.imageUrl || "";
       if (p.imageUrl) {
         imagePreview.src = p.imageUrl;

@@ -6,6 +6,8 @@
 // se actualiza sola, sin recargar.
 // ---------------------------------------------------------------
 let products = [];
+let activeCat = "todos";
+let searchTerm = "";
 
 const CATEGORY_ICONS = {
   bovinos: "🐄",
@@ -23,8 +25,7 @@ const CATEGORY_LABELS = {
 
 db.collection("productos").onSnapshot((snapshot) => {
   products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  const activeCat = document.querySelector(".aisle.active")?.dataset.cat || "todos";
-  renderProducts(activeCat);
+  applyFilters();
   renderCart(); // por si cambió algo de un producto que ya está en el carrito
 });
 
@@ -45,12 +46,25 @@ function money(n) {
   return "$" + n.toLocaleString("es-MX");
 }
 
-function renderProducts(cat = "todos") {
-  const list = cat === "todos" ? products : products.filter(p => p.cat === cat);
+function applyFilters() {
+  let list = activeCat === "todos" ? products : products.filter(p => p.cat === activeCat);
+
+  if (searchTerm.trim()) {
+    const term = searchTerm.trim().toLowerCase();
+    list = list.filter(p =>
+      p.name.toLowerCase().includes(term) || p.desc.toLowerCase().includes(term)
+    );
+  }
+
+  renderProducts(list);
+}
+
+function renderProducts(list) {
   grid.innerHTML = list.map(p => `
-    <article class="card" data-id="${p.id}">
+    <article class="card ${p.agotado ? "card--agotado" : ""}" data-id="${p.id}">
       <div class="card__img">
         <span class="species-badge" title="${CATEGORY_LABELS[p.cat] || p.cat}">${CATEGORY_ICONS[p.cat] || "📦"}</span>
+        ${p.agotado ? `<span class="agotado-badge">Agotado</span>` : ""}
         ${p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}">` : (p.icon || "📦")}
       </div>
       <div class="card__body">
@@ -58,11 +72,13 @@ function renderProducts(cat = "todos") {
         <p class="card__desc">${p.desc}</p>
         <div class="card__footer">
           <span class="price-tag">${money(p.price)}</span>
-          <button class="add-btn" data-id="${p.id}">Agregar</button>
+          ${p.agotado
+            ? `<button class="add-btn" disabled>Agotado</button>`
+            : `<button class="add-btn" data-id="${p.id}">Agregar</button>`}
         </div>
       </div>
     </article>
-  `).join("");
+  `).join("") || "<p class='no-results'>No encontramos productos que coincidan con tu búsqueda.</p>";
 }
 
 aisles.addEventListener("click", (e) => {
@@ -70,7 +86,14 @@ aisles.addEventListener("click", (e) => {
   if (!btn) return;
   aisles.querySelectorAll(".aisle").forEach(a => a.classList.remove("active"));
   btn.classList.add("active");
-  renderProducts(btn.dataset.cat);
+  activeCat = btn.dataset.cat;
+  applyFilters();
+});
+
+const searchInput = document.getElementById("searchInput");
+searchInput.addEventListener("input", () => {
+  searchTerm = searchInput.value;
+  applyFilters();
 });
 
 grid.addEventListener("click", (e) => {
@@ -176,6 +199,7 @@ function openDetail(id) {
   detailBody.innerHTML = `
     <div class="detail__img">
       <span class="species-badge" title="${CATEGORY_LABELS[p.cat] || p.cat}">${CATEGORY_ICONS[p.cat] || "📦"}</span>
+      ${p.agotado ? `<span class="agotado-badge">Agotado</span>` : ""}
       ${p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}">` : (p.icon || "📦")}
     </div>
     <div class="detail__content">
@@ -184,7 +208,9 @@ function openDetail(id) {
       ${seccionesTecnicas}
       <div class="detail__footer">
         <span class="price-tag">${money(p.price)}</span>
-        <button class="add-btn" data-id="${p.id}">Agregar</button>
+        ${p.agotado
+          ? `<button class="add-btn" disabled>Agotado</button>`
+          : `<button class="add-btn" data-id="${p.id}">Agregar</button>`}
       </div>
     </div>
   `;
@@ -216,9 +242,9 @@ detailBody.addEventListener("click", (e) => {
 // ---------------------------------------------------------------
 // NÚMERO DE WHATSAPP DEL NEGOCIO
 // Reemplaza el placeholder por el número real, con código de país
-// y sin espacios ni signos. Ejemplo México: "529611435007"
+// y sin espacios ni signos. Ejemplo México: "529611234567"
 // ---------------------------------------------------------------
-const WHATSAPP_NUMBER = "529611435007"; // <-- CAMBIAR AQUÍ
+const WHATSAPP_NUMBER = "529611435007";
 
 const addressModal = document.getElementById("addressModal");
 const addressForm = document.getElementById("addressForm");

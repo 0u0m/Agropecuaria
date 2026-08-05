@@ -132,6 +132,60 @@ body {
   font-size: 15px;
 }
 
+.search-input {
+  width: 100%;
+  max-width: 480px;
+  margin-top: 16px;
+  padding: 11px 14px;
+  border: 1.5px solid var(--tan-line);
+  border-radius: 999px;
+  font-family: var(--body);
+  font-size: 14px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.search-input:focus {
+  outline: 2px solid var(--pasture);
+  outline-offset: 1px;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #7a7a6d;
+  font-size: 14px;
+  padding: 30px 0;
+}
+
+.agotado-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--barn);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  z-index: 1;
+}
+
+.card--agotado .card__img img,
+.card--agotado .card__img {
+  opacity: 0.6;
+}
+
+.card--agotado .card__name,
+.card--agotado .card__desc {
+  opacity: 0.6;
+}
+
+.add-btn:disabled {
+  background: #b9b9ac;
+  cursor: not-allowed;
+}
+
 /* ---------- Grid de productos ---------- */
 .grid {
   display: grid;
